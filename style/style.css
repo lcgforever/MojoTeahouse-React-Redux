@@ -26,7 +26,7 @@ body {
 }
 
 .mainDrawerMenuItem {
-  padding: 0 8px;
+  padding: 0 8px !important;
   font-size: 16px;
 }
 
@@ -34,6 +34,7 @@ body {
   position: absolute;
   width: 100%;
   height: 100%;
+  padding: 16px;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -44,8 +45,21 @@ body {
   margin: auto;
 }
 
-.mojoMenuContent {
-  position: absolute;
+.mojoMenuListContainer {
+  position: relative;
   width: 100%;
   height: 100%;
+  margin: 0 !important;
+  overflow-y: auto;
+}
+
+.mojoMenuGridTile {
+  margin: 0 16px;
+}
+
+.mojoMenuImage {
+  width: 200px;
+  height: 200px;
+  background-position: center center;
+  background-repeat: no-repeat;
 }

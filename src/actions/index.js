@@ -15,7 +15,8 @@ const fDatabase = Firebase.database();
 export const TOGGLE_MAIN_DRAWER = 'TOGGLE_MAIN_DRAWER';
 export const LOAD_ALL_DATA_STARTED = 'LOAD_ALL_DATA_STARTED';
 export const LOAD_ALL_DATA_FINISHED = 'LOAD_ALL_DATA_FINISHED';
-export const SHOW_ERROR_MESSAGE = 'SHOW_ERROR_MESSAGE';
+export const SHOW_MESSAGE = 'SHOW_MESSAGE';
+export const HIDE_MESSAGE = 'HIDE_MESSAGE';
 
 export function toggleMainDrawer() {
   return {
@@ -37,9 +38,15 @@ export function loadAllData() {
     })
     .catch((error) => {
       dispatch({
-        type: SHOW_ERROR_MESSAGE,
+        type: SHOW_MESSAGE,
         payload: error.message
       });
     });
   };
+}
+
+export function hideMessage() {
+  return {
+    type: HIDE_MESSAGE
+  }
 }
