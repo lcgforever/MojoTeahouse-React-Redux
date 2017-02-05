@@ -1,0 +1,51 @@
+html {
+  font-family: 'Roboto', sans-serif;
+}
+
+body {
+  margin: 0;
+}
+
+.mainDrawerHeaderContainer {
+  padding: 24px;
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  align-items: center;
+}
+
+.mainDrawerHeaderImage {
+  width: 34px;
+  height: 34px;
+}
+
+.mainDrawerHeaderTitle {
+  margin-left: 12px;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.mainDrawerMenuItem {
+  padding: 0 8px;
+  font-size: 16px;
+}
+
+.mojoMenuContainer {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.loadingProgressBar {
+  margin: auto;
+}
+
+.mojoMenuContent {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
