@@ -1,13 +1,11 @@
-import { combineReducers } from 'redux';
+import { combineReducers } from 'redux-immutable';
 
-import ToggleMainDrawerReducer from './toggle_main_drawer';
-import LoadAllDataReducer from './load_all_data';
-import ShowMessageReducer from './show_or_hide_message';
+import loadDataState from './load_all_data';
+import messageState from './show_or_hide_message';
 
 const rootReducer = combineReducers({
-  mainDrawerState: ToggleMainDrawerReducer,
-  loadDataState: LoadAllDataReducer,
-  messageState: ShowMessageReducer
+  loadDataState,
+  messageState
 });
 
 export default rootReducer;

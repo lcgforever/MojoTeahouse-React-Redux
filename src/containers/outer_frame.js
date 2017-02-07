@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { toggleMainDrawer, hideMessage } from '../actions/index';
+import { hideMessage } from '../actions/index';
 import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
@@ -11,12 +11,17 @@ class OuterFrame extends Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      mainDrawerOpen: false
+    };
     this.handleMainDrawerToggle = this.handleMainDrawerToggle.bind(this);
     this.handleSnackbarActionTap = this.handleSnackbarActionTap.bind(this);
   }
 
   handleMainDrawerToggle() {
-    this.props.toggleMainDrawer();
+    this.setState({
+      mainDrawerOpen: !this.state.mainDrawerOpen
+    });
   }
 
   handleSnackbarActionTap() {
@@ -31,7 +36,7 @@ class OuterFrame extends Component {
           onLeftIconButtonTouchTap={this.handleMainDrawerToggle} />
         <Drawer
           docked={false}
-          open={this.props.mainDrawerOpen}
+          open={this.state.mainDrawerOpen}
           onRequestChange={this.handleMainDrawerToggle}>
           <div className='mainDrawerHeaderContainer'>
             <img className='mainDrawerHeaderImage' src={require('../../resources/images/mojo_header.jpg')} />
@@ -54,10 +59,9 @@ class OuterFrame extends Component {
 
 function mapStateToProps(state) {
   return {
-    mainDrawerOpen: state.mainDrawerState.get('mainDrawerOpen'),
-    showMessage: state.messageState.get('showMessage'),
-    message: state.messageState.get('message')
+    showMessage: state.getIn(['messageState', 'showMessage']),
+    message: state.getIn(['messageState', 'message'])
   };
 }
 
-export default connect(mapStateToProps, { toggleMainDrawer, hideMessage })(OuterFrame);
+export default connect(mapStateToProps, { hideMessage })(OuterFrame);

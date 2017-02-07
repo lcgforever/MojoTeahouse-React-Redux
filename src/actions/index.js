@@ -1,5 +1,11 @@
 import * as Firebase from 'firebase';
 
+// Action type constants
+export const LOAD_ALL_DATA_STARTED = 'LOAD_ALL_DATA_STARTED';
+export const LOAD_ALL_DATA_FINISHED = 'LOAD_ALL_DATA_FINISHED';
+export const SHOW_MESSAGE = 'SHOW_MESSAGE';
+export const HIDE_MESSAGE = 'HIDE_MESSAGE';
+
 // Initialize firebase
 const config = {
   apiKey: "AIzaSyADLW0M50VtCnnpLiC2GV4MZpEIQeitJSc",
@@ -10,19 +16,6 @@ const config = {
 };
 Firebase.initializeApp(config);
 const fDatabase = Firebase.database();
-
-// Action type constants
-export const TOGGLE_MAIN_DRAWER = 'TOGGLE_MAIN_DRAWER';
-export const LOAD_ALL_DATA_STARTED = 'LOAD_ALL_DATA_STARTED';
-export const LOAD_ALL_DATA_FINISHED = 'LOAD_ALL_DATA_FINISHED';
-export const SHOW_MESSAGE = 'SHOW_MESSAGE';
-export const HIDE_MESSAGE = 'HIDE_MESSAGE';
-
-export function toggleMainDrawer() {
-  return {
-    type: TOGGLE_MAIN_DRAWER
-  }
-}
 
 export function loadAllData() {
   return (dispatch) => {
