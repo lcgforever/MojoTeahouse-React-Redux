@@ -2,7 +2,9 @@ import { Map } from 'immutable';
 import { LOAD_ALL_DATA_STARTED, LOAD_ALL_DATA_FINISHED } from '../actions/index';
 
 const INITIAL_STATE = Map({
-  data: {},
+  menuDataMap: {},
+  toppingDataMap: {},
+  zipDataList: [],
   loading: false
 });
 
@@ -12,7 +14,11 @@ export default function(state = INITIAL_STATE, action) {
     return state.set('loading', true);
 
     case LOAD_ALL_DATA_FINISHED:
-    return state.set('data', action.payload).set('loading', false);
+    const data = action.payload;
+    return state.set('loading', false)
+    .set('menuDataMap', data.menu)
+    .set('toppingDataMap', data.topping)
+    .set('zipDataList', data.zip);
 
     default:
     return state;

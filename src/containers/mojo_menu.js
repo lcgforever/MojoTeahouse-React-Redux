@@ -1,35 +1,38 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { loadAllData } from '../actions/index';
+import { Link } from 'react-router';
+import { loadAllData, updateAppBarLeftButton, AppBarLeftButtonType } from '../actions/index';
 import _ from 'lodash';
 import CircularProgress from 'material-ui/CircularProgress';
-import RaisedButton from 'material-ui/RaisedButton';
-import { Card, CardMedia, CardTitle } from 'material-ui/Card';
+import FlatButton from 'material-ui/FlatButton';
+import { Card, CardMedia, CardTitle, CardActions } from 'material-ui/Card';
 import TouchRipple from 'material-ui/internal/TouchRipple';
 import Subheader from 'material-ui/Subheader';
 import { Grid, Row, Col } from 'react-bootstrap/lib';
+import newMenuTagImage from '../../resources/images/new_tag.png';
 
 class MojoMenu extends Component {
 
   constructor(props) {
     super(props);
     this.renderAllMenus = this.renderAllMenus.bind(this);
+    this.handleMojoMenuClick = this.handleMojoMenuClick.bind(this);
   }
 
-  componentDidMount() {
-    this.props.loadAllData();
+  componentWillMount() {
+    this.props.updateAppBarLeftButton(AppBarLeftButtonType.DRAWER);
   }
 
   renderAllMenus() {
-    if (this.props.data && this.props.data.menu) {
-      const menuDataDict = this.props.data.menu;
+    if (this.props.menuDataMap) {
+      const menuDataMap = this.props.menuDataMap;
       const categoryMap = {};
       // Filter by category
-      const sortedCategorySet = _.sortBy(_.uniq(_.map(menuDataDict, 'category')));
+      const sortedCategorySet = _.sortBy(_.uniq(_.map(menuDataMap, 'category')));
       _.each(sortedCategorySet, (category) => {
         categoryMap[category] = [];
       });
-      _.forOwn(menuDataDict, (menuData, menuId) => {
+      _.forOwn(menuDataMap, (menuData, menuId) => {
         categoryMap[menuData.category].push(menuData);
       });
 
@@ -46,6 +49,10 @@ class MojoMenu extends Component {
     }
   }
 
+  handleMojoMenuClick(menuDataId) {
+    console.log('touch tap: ' + menuDataId);
+  }
+
   renderCategoryMenuList(category, categoryMenuList) {
     const cols = [];
     categoryMenuList.map((menuData) => {
@@ -56,17 +63,37 @@ class MojoMenu extends Component {
           className='mojoMenuCardContainer'>
           <Card className='mojoMenuCard'>
             <TouchRipple style={{ zIndex: 100 }}>
-              <CardMedia>
-                <div className='mojoMenuImage' style={{ backgroundImage: `url(${menuData.imageUrl})` }}>
-                  <img className='mojoMenuNewTagImage' src={menuData.isNewMenu ? require('../../resources/images/new_tag.png') : ''} />
-                </div>
-              </CardMedia>
-              <CardTitle
-                title={menuData.name}
-                titleStyle={{ fontSize: '16px' }}
-                subtitle={menuData.chineseName}
-                subtitleStyle={{ fontSize: '14px' }} />
+              <Link to={'/menu/' + menuData.id}>
+                <CardMedia>
+                  <div className='mojoMenuImage' style={{ backgroundImage: `url(${menuData.imageUrl})` }}>
+                    {
+                      menuData.isNewMenu
+                      ? (<img className='mojoMenuNewTagImage' src={newMenuTagImage} />)
+                      : null
+                    }
+                  </div>
+                </CardMedia>
+                <CardTitle
+                  title={menuData.name}
+                  titleStyle={{ fontSize: '16px' }}
+                  subtitle={menuData.chineseName}
+                  subtitleStyle={{ fontSize: '14px' }} />
+              </Link>
             </TouchRipple>
+            <CardActions className='mojoMenuActionContainer'>
+              <FlatButton
+                label={
+                  menuData.isSoldOut
+                  ? 'Sold out'
+                  : 'Add to cart ($' + Number(menuData.price).toFixed(1) + ')'
+                }
+                secondary={true} />
+            </CardActions>
+            {
+              menuData.isSoldOut
+              ? (<div className='mojoMenuDisableLayout' />)
+              : null
+            }
           </Card>
         </Col>
       );
@@ -98,8 +125,8 @@ class MojoMenu extends Component {
 function mapStateToProps(state) {
   return {
     loading: state.getIn(['loadDataState', 'loading']),
-    data: state.getIn(['loadDataState', 'data'])
+    menuDataMap: state.getIn(['loadDataState', 'menuDataMap'])
   };
 }
 
-export default connect(mapStateToProps, { loadAllData })(MojoMenu);
+export default connect(mapStateToProps, { loadAllData, updateAppBarLeftButton })(MojoMenu);

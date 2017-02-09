@@ -1,9 +1,11 @@
 import { combineReducers } from 'redux-immutable';
 
-import loadDataState from './load_all_data';
-import messageState from './show_or_hide_message';
+import appBarState from './reducer_update_app_bar';
+import loadDataState from './reducer_load_all_data';
+import messageState from './reducer_update_message';
 
 const rootReducer = combineReducers({
+  appBarState,
   loadDataState,
   messageState
 });
